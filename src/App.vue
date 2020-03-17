@@ -1,14 +1,20 @@
 <template lang="pug">
   div#app
-    Form
+    div.search
+    div.menu
+    div.wrap-content
+      Respond
+    <!-- Form -->
 </template>
 
 <script>
+import Respond from './components/respond'
 import Form from './components/Form.vue'
 
 export default {
   name: 'App',
   components: {
+    Respond,
     Form
   }
 }
