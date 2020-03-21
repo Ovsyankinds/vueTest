@@ -1,11 +1,18 @@
 <template lang="pug">
-	div.respond-input
-		label(:style="`color: ${labelColor[index]}`") Условие {{ index + 1 }}
-		div.wrap-select
-			select(@change="selectValue($event)")
-				template(v-for="(option, index) in arrSelect" :id="index")
-					option(:value="index") {{ option }}
-			input-respond-params(:value="inputRespondParam")
+  .wrap-component
+    .respond-input
+      label(:style="`color: ${labelColor[index]}`") Условие {{ index + 1 }}
+      .wrap-select
+        select(@change="selectValue($event)")
+          template(v-for="(option, index) in arrSelect" :id="index")
+            option(:value="index") {{ option }}
+    input-respond-params(:value="inputRespondParam" :labelColor="labelColor[index]" :index="index")
+    //- template(v-if="inputRespondParam === 0")
+    //-   label(:style="`color: ${labelColor[index]}`") Диапазон {{ index + 1 }}
+    //-   input-respond-params(:value="inputRespondParam")
+    //- .control-button
+    //-   button + Добавить диапазон
+    //-   button Удалить условие
 </template>
 
 <script>
@@ -17,7 +24,7 @@
 		},
 		data() {
 			return{ 
-				inputRespondParam: null
+				inputRespondParam: 0
 			}
 		},
 		props: {
@@ -43,10 +50,11 @@
 		methods: {
 			selectValue(event){
 				event.target.options.forEach((el)=>{
-					if(el.selected) this.inputRespondParam = el.value
-				})
+					if(el.selected) this.inputRespondParam = Number(el.value)
+        })
+        console.log(this.inputRespondParam)
 			}
-		}
+    }
 	}
 </script>
 
@@ -54,6 +62,9 @@
 	.respond-input{
 		display: grid;
 		grid-template-columns: 200px 1fr;
+    /* grid-template-rows: 1fr 1fr; */
+    grid-template-areas: "oneOneRow oneTwoRow" "twoOneRow twoTwoRow" "threeOneRow threeTwoRow";
+    /* grid-gap: 15px 15px; */
 		margin: 0 25px 25px 25px;
 		align-items: center;
 	}
