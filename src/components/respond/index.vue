@@ -1,12 +1,7 @@
 <template lang="pug">
 	.wrap-respond
 		span Добавить опрос
-		template(v-for="(input, index) in arrSelect.length" :id="index")
-			input-respond(
-				:arrSelect="arrSelect" 
-				:index="index"
-				:labelColor="labelColor"
-			)
+		input-respond
 </template>
 
 <script>
@@ -18,9 +13,6 @@
 		},
 		data(){
 			return{
-				// countRespond: 4,
-				arrSelect: ['Возраст респондента', 'Тип карты лояльности', 'Статус карты лояльности', 'Выберите условие'],
-				labelColor: ['brown', 'blue', 'green', 'red']
 			}
 		}
 	}

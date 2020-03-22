@@ -1,78 +1,48 @@
 <template lang="pug">
-  .wrap-component
-    .respond-input
-      label(:style="`color: ${labelColor[index]}`") Условие {{ index + 1 }}
-      .wrap-select
-        select(@change="selectValue($event)")
-          template(v-for="(option, index) in arrSelect" :id="index")
-            option(:value="index") {{ option }}
-    input-respond-params(:value="inputRespondParam" :labelColor="labelColor[index]" :index="index")
-    //- template(v-if="inputRespondParam === 0")
-    //-   label(:style="`color: ${labelColor[index]}`") Диапазон {{ index + 1 }}
-    //-   input-respond-params(:value="inputRespondParam")
-    //- .control-button
-    //-   button + Добавить диапазон
-    //-   button Удалить условие
+  .wrap-conditions
+    .condition-item(v-for="(item, indexCondition) in countCondition.length" :id="indexCondition")
+      .respond-input
+        InputSelectRespond(:indexCondition="indexCondition" @deleteCondition="deleteCondition")
+    button.addConditions(@click="addConditions()") Добавить условие +
 </template>
 
 <script>
-	import InputRespondParams from '../input-respond-params'
+  import InputSelectRespond from '../input-select-respond'
 	export default{
 		name: 'input-respond',
 		components:{
-			InputRespondParams
+      InputSelectRespond
 		},
 		data() {
-			return{ 
-				inputRespondParam: 0
-			}
-		},
-		props: {
-			arrSelect: {
-				type: Array,
-				default(){
-					return ['Возраст респондента']
-				}
-			},
-			index: {
-				type: Number,
-				default(){
-					return 1
-				}
-			},
-			labelColor: {
-				type: Array,
-				default(){
-					return ['grey']
-				}
+			return{
+        cnt: 1,
+        countCondition: []
 			}
 		},
 		methods: {
-			selectValue(event){
-				event.target.options.forEach((el)=>{
-					if(el.selected) this.inputRespondParam = Number(el.value)
-        })
-        console.log(this.inputRespondParam)
-			}
+      addConditions(){
+        // this.countCondition ++
+        this.countCondition.push(this.cnt++)
+         console.log(this.countCondition, 'addConditions component input respond')
+      },
+      deleteCondition(indexConditionItem){
+        console.log(indexConditionItem, 'deleteCondition component input respond')
+        this.countCondition.splice(indexConditionItem, 1)
+        this.cnt -= 1
+        console.log(this.countCondition, 'addConditions show component input respond')
+        // this.countCondition --
+      },
+      updated(){
+        console.log(this.countCondition)
+      }
     }
 	}
 </script>
 
 <style>
-	.respond-input{
-		display: grid;
-		grid-template-columns: 200px 1fr;
-    /* grid-template-rows: 1fr 1fr; */
-    grid-template-areas: "oneOneRow oneTwoRow" "twoOneRow twoTwoRow" "threeOneRow threeTwoRow";
-    /* grid-gap: 15px 15px; */
-		margin: 0 25px 25px 25px;
-		align-items: center;
-	}
-	.respond-input label {
-		text-align: left;
-	}
-	.respond-input select{
-		width: 100%;
-		height: 35px;
-	}
+	.addConditions{
+    display: block;
+    width: 150px;
+    margin: 45px auto 25px auto;
+  }
 </style>
