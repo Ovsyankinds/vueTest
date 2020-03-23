@@ -7,10 +7,10 @@
         | Диапазон {{ index + 1 }}
       .block-input
         label от
-        input(type="text")
+        input(type="text" :value="rangeOne")
 
         label до
-        input(type="text")
+        input(type="text" :value="rangeTwo")
     .control-button
       .item-control-button
       .item-control-button-add
@@ -45,22 +45,39 @@
         default(){
           return 0
         }
+      },
+      submit: {
+        type: Boolean,
+        default(){
+          return false
+        }
       }
 		},
 		data(){
 			return{
-        ageRespondCnt: 2
+        ageRespondCnt: 2,
+        rangeOne: '',
+        rangeTwo: '',
 			}
     },
     methods: {
       addRound(){
         this.ageRespondCnt ++
-        console.log("add round")
       },
       deleteCondition(){
-        console.log('deleteCondition component input age respond')
-        this.$emit('deleteCondition', this.indexCondition)
+        this.$emit('deleteCondition')
       }
+    },
+    watch: {
+      rangeOne: () => {
+        console.log(this.rangeOne)
+      },
+      submit: function(){
+        console.log(this.submit, 'component input age respond')
+      }
+    },
+    updated(){
+      console.log(this.submit, 'component input age respond')
     }
 	}
 </script>

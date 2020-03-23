@@ -1,33 +1,30 @@
 <template lang="pug">
-  .wrap-select-input
+  .wrap-select-input(:style="`background-color: ${backgroundColor[indexCondition]}`")
+    div.empty(v-if="indexCondition == 0")
     .wrap-select
-      label(:style="`color: ${labelColor[indexCondition]}`") Условие {{ indexCondition + 1 }}
-      .select(@change="selectValue($event, indexCondition)")
-        select(:data-idSelect="indexCondition" :id="`selected-condition-${indexCondition}`")
-          template(v-for="(option, index) in arrSelect" :id="index")
-            //- option(v-if="index==0" :value="index" selected) {{ option }}
-            option(:value="index") {{ option }}
-    InputAgeRespond(v-if="type == 0" :index="indexCondition" @deleteCondition="deleteCondition")
-    InputCardType(v-else-if="type == 1" :index="indexCondition" @deleteCondition="deleteCondition")
-    InputCardStatus(v-else-if="type == 2" :index="indexCondition" @deleteCondition="deleteCondition")
+      InputSelect(:indexCondition="indexCondition" :labelColor="labelColor" @type="typeCondition" :backgroundColor="backgroundColor")
+    InputAgeRespond(v-if="type == 0" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit")
+    InputCardType(v-else-if="type == 1" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit" 
+      @valueCardType="valueCardType")
+    InputCardStatus(v-else-if="type == 2" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit")
 </template>
 
 <script>
   import InputAgeRespond from '../input-age-respond'
   import InputCardType from '../input-card-type'
   import InputCardStatus from '../input-card-status'
+  import InputSelect from '../input-select'
 
   export default {
     name: 'input-selected-respond',
     components:{
       InputAgeRespond,
       InputCardType,
-      InputCardStatus
+      InputCardStatus,
+      InputSelect
     },
     data(){
       return{
-        arrSelect: ['Возраст респондента', 'Тип карты лояльности', 'Статус карты лояльности', 'Выберите условие'],
-        labelColor: ['brown', 'blue', 'green', 'red'],
         type: 0
       }
     },
@@ -37,33 +34,37 @@
         default(){
           return 0
         }
+      },
+      labelColor: {
+        type: Array
+      },
+      backgroundColor: {
+        type: Array
+      },
+      submit: {
+        type: Boolean
       }
     },
     methods: {
-      selectValue(event, indexCondition){
-        event.target.options.forEach((el)=>{
-          if(el.selected && indexCondition == Number(event.srcElement.dataset.idselect)){
-            this.type = Number(el.value)
-          }
-        })
+      typeCondition(type){
+        this.type = type
       },
       deleteCondition(indexConditionItem){
-        console.log('deleteCondition component input select respond')
         this.$emit('deleteCondition', indexConditionItem)
+      },
+      valueCardType(value){
+        this.$emit('valueCardType', value)
       }
     }
   }
 </script>
 
 <style scoped>
-  .wrap-select {
-    display: grid;
-		grid-template-columns: 200px 1fr;
-		margin: 0 25px 25px 25px;
-		align-items: center;
+  .wrap-select-input{
+    border-top: 1px solid grey;
+    padding-bottom: 5px;
   }
-  .select select{
-		width: 100%;
-		height: 35px;
-	}
+  .empty{
+    margin-bottom: 30px;
+  }
 </style>

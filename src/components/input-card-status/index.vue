@@ -4,9 +4,8 @@
       label Статус {{ index + 1 }}
       .block-input
         select
-          option(value="11")
-          option(value="22")
-          option(value="33")
+          template(v-for="(option, indexCardStatus) in cardStatus" :id="indexCardStatus")
+            option(:value="indexCardType") {{ option }}
     .control-button
       .item-control-button
       .item-control-button-add
@@ -28,13 +27,13 @@
 		},
 		data(){
 			return{
-        cardStatusCnt: 1
+        cardStatusCnt: 1,
+        cardStatus: ['Активна', 'Заблокирована', 'Просрочена']
 			}
     },
     methods: {
       deleteCondition(){
-        console.log('deleteCondition component input age respond')
-        this.$emit('deleteCondition', this.indexCondition)
+        this.$emit('deleteCondition')
       }
     }
 	}
@@ -44,9 +43,12 @@
   .wrap-block-input{
     display: grid;
 		grid-template-columns: 200px 1fr;
-    grid-gap: 15px 15px;
 		margin: 0 25px 25px 25px;
 		align-items: center;
+  }
+  .block-input select{
+    width: 90%;
+    height: 35px;
   }
   .control-button{
     display: grid;

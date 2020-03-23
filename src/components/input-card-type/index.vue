@@ -3,9 +3,10 @@
     .wrap-block-input(v-for="(item, index) in cardTypeCnt")
       label Тип {{ index + 1 }}
       .block-input
-        select
+        select(v-model="selectCardType")
           template(v-for="(option, indexCardType) in arrayCardType" :id="indexCardType")
-             option(:value="indexCardType") {{ option }}
+            option(v-if="indexCardType != 0" :value="option") {{ option }}
+            option(v-else :value="option") {{ option }}
     .control-button
       .item-control-button
       .item-control-button-add
@@ -20,7 +21,8 @@
 		data(){
 			return{
         cardTypeCnt: 1,
-        arrayCardType: ['Gold', 'Debet', 'Credit']
+        arrayCardType: ['Gold', 'Debet', 'Credit'],
+        selectCardType: '',
 			}
     },
     props: {
@@ -37,10 +39,20 @@
         console.log("add round")
       },
        deleteCondition(){
-        console.log('deleteCondition component input age respond')
-        this.$emit('deleteCondition', this.indexCondition)
+        this.$emit('deleteCondition')
       }
-    }
+    },
+    watch: {
+      selectCardType: function() {
+        if(this.selectCardType){
+          this.$emit('valueCardType', this.selectCardType)
+        }
+        console.log(this.selectCardType)
+      },
+      submit: function(){
+        console.log(this.submit, 'component input age respond')
+      }
+    },
 	}
 </script>
 
