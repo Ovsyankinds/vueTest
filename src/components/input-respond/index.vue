@@ -10,6 +10,7 @@
           :submit="submit"
           @valueCardType="valueCardType"
           @valueCardStatus="valueCardStatus"
+          @inputAgeRespond="inputAgeRespond"
         )
     button.addConditions(@click="addConditions()") Добавить условие +
     button.sumbit(@click="submitConditions()") Далее
@@ -28,9 +29,10 @@
         countCondition: [],
         labelColor: ['#D1A632', '#556ECB', '#92B960', '#C96661'],
         backgroundColor: ['#F8ECCB', '#C2CEFA', '#D9FCAB', '#FFC8C5'],
-        submit: true,
+        submit: false,
         cardType: [],
         cardStatus: [],
+        ageRespond: [],
         submitArr: []
 			}
 		},
@@ -51,7 +53,7 @@
       },
       submitConditions(){
         this.submit = true
-        console.log( this.submitArr, 'submit array')
+        console.log( this.submitArr, 'Получившийся массив')
       },
       valueCardType(value){
         this.cardType.push(value)
@@ -60,6 +62,10 @@
       valueCardStatus(value){
         this.cardStatus.push(value)
         this.submitArr.cardStatus = this.cardStatus
+      },
+      inputAgeRespond(value){
+        this.ageRespond.push(value)
+        this.submitArr.ageRespond = this.ageRespond
       }
     }
 	}

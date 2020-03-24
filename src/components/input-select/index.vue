@@ -6,7 +6,6 @@
       .select(@change="selectValue($event, indexCondition)")
         select(:data-idSelect="indexCondition" :id="`selected-condition-${indexCondition}`")
           template(v-for="(option, index) in arrSelect" :id="index")
-            //- option(v-if="index==0" :value="index" selected) {{ option }}
             option(:value="index") {{ option }}
 </template>
 

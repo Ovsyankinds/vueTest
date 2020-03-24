@@ -3,9 +3,9 @@
     .wrap-block-input(v-for="(item, index) in cardStatusCnt")
       label Статус {{ index + 1 }}
       .block-input
-        select(@change="getValueSelect($event, index)")
+        select#selectCartStatus(@change="getValueSelect($event, index)")
+          option(value="not") Выберите статус
           template(v-for="(option, indexCardStatus) in cardStatus" :id="indexCardStatus")
-            //- option(:value="option") {{ option }}
             option(:value="option" v-model="selectCardStatus") {{ option }}
     .control-button
       .item-control-button
@@ -24,6 +24,12 @@
         default(){
           return 0
         }
+      },
+      submit: {
+        type: Boolean,
+        default(){
+          return false
+        }
       }
 		},
 		data(){
@@ -41,27 +47,23 @@
         this.$emit('deleteCondition')
       },
       getValueSelect(event, indexStatus){
-        // console.log(indexStatus, 'indexStatus')
-        // console.log(this.cardStatusCnt - 1, 'cardStatusCnt')
-        let selectIterValue = ''
         event.target.options.forEach((el)=>{
-          if(el.selected && indexStatus != this.cardStatusCnt - 1){
-            // console.log(el.value)
-            selectIterValue = el.value
-            // this.selectCardStatus.status.push(el.value)
+          if(el.selected && el.value != 'not'){
+            this.selectCardStatus[indexStatus] = el.value
           }
         })
-        this.selectCardStatus.push(selectIterValue)
-        // console.log(selectIterValue)
-        console.log(this.selectCardStatus)
       }
     },
-    // watch: {
-    //   selectCardStatus: function() {
-    //     console.log(this.selectCardStatus)
-    //     // if(this.selectCardStatus) this.$emit('valueCardStatus', this.selectCardStatus)
-    //   }
-    // }
+    watch: {
+      submit: {
+        immediate: true,
+        handler(val){
+          if(val === true){
+            this.$emit('valueCardStatus', this.selectCardStatus)
+          }
+        }
+      }
+    }
 	}
 </script>
 

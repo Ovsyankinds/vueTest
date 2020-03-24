@@ -7,10 +7,10 @@
         | Диапазон {{ index + 1 }}
       .block-input
         label от
-        input(type="text" :value="rangeOne")
+        input(type="text" :value="rangeOne" @blur="getValue($event, index)")
 
         label до
-        input(type="text" :value="rangeTwo")
+        input(type="text" :value="rangeTwo" @blur="getValue($event, index)")
     .control-button
       .item-control-button
       .item-control-button-add
@@ -58,6 +58,7 @@
         ageRespondCnt: 2,
         rangeOne: '',
         rangeTwo: '',
+        inputAgeRespond: []
 			}
     },
     methods: {
@@ -66,18 +67,27 @@
       },
       deleteCondition(){
         this.$emit('deleteCondition')
+      },
+      getValue(event){
+        if(Number(event.target.value)){
+          this.inputAgeRespond.push(event.target.value)
+        }
       }
     },
     watch: {
-      rangeOne: () => {
-        console.log(this.rangeOne)
-      },
-      submit: function(){
-        console.log(this.submit, 'component input age respond')
+      submit: {
+        immediate: true,
+        handler(val){
+          if(val === true){
+            let size = 2;
+            let subarray = [];
+            for (let i = 0; i <Math.ceil(this.inputAgeRespond.length/size); i++){
+                subarray[i] = this.inputAgeRespond.slice((i*size), (i*size) + size);
+            }
+            this.$emit('inputAgeRespond', subarray)
+          }
+        }
       }
-    },
-    updated(){
-      console.log(this.submit, 'component input age respond')
     }
 	}
 </script>
@@ -85,10 +95,14 @@
 <style scoped>
   .wrap-block-input{
     display: grid;
-		grid-template-columns: 200px 1fr;
+		grid-template-columns: 175px 1fr;
     grid-gap: 15px 15px;
 		margin: 0 25px 25px 25px;
 		align-items: center;
+  }
+  .block-input label {
+    margin-right: 10px;
+    margin-left: 10px;
   }
   .control-button{
     display: grid;
@@ -106,6 +120,7 @@
   }
   input{
     width: 100px;
+    height: 25px;
   }
   .or{
     display: inline; 

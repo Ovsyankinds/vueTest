@@ -3,7 +3,13 @@
     div.empty(v-if="indexCondition == 0")
     .wrap-select
       InputSelect(:indexCondition="indexCondition" :labelColor="labelColor" @type="typeCondition" :backgroundColor="backgroundColor")
-    InputAgeRespond(v-if="type == 0" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit")
+    InputAgeRespond(
+      v-if="type == 0" 
+      :index="indexCondition" 
+      @deleteCondition="deleteCondition(indexCondition)" 
+      :submit="submit"
+      @inputAgeRespond="inputAgeRespond"
+    )
     InputCardType(
       v-else-if="type == 1" 
       :index="indexCondition" 
@@ -53,7 +59,10 @@
         type: Array
       },
       submit: {
-        type: Boolean
+        type: Boolean,
+        default(){
+          return false
+        }
       }
     },
     methods: {
@@ -68,6 +77,9 @@
       },
       valueCardStatus(value){
         this.$emit('valueCardStatus', value)
+      },
+      inputAgeRespond(value){
+        this.$emit('inputAgeRespond', value)
       }
     }
   }

@@ -3,7 +3,8 @@
     .wrap-block-input(v-for="(item, index) in cardTypeCnt")
       label Тип {{ index + 1 }}
       .block-input
-        select(v-model="selectCardType")
+        select(@change="getValueSelect($event, index)")
+          option(value="not") Выберите статус
           template(v-for="(option, indexCardType) in arrayCardType" :id="indexCardType")
             option(:value="option") {{ option }}
     .control-button
@@ -21,7 +22,7 @@
 			return{
         cardTypeCnt: 1,
         arrayCardType: ['Gold', 'Debet', 'Credit'],
-        selectCardType: '',
+        selectCardType: [],
 			}
     },
     props: {
@@ -29,6 +30,12 @@
         type: Number,
         default(){
           return 0
+        }
+      },
+      submit: {
+        type: Boolean,
+        default(){
+          return false
         }
       }
 		},
@@ -38,12 +45,22 @@
       },
        deleteCondition(){
         this.$emit('deleteCondition')
+      },
+      getValueSelect(event, indexType){
+        event.target.options.forEach((el)=>{
+          if(el.selected && el.value != 'not'){
+            this.selectCardType[indexType] = el.value
+          }
+        })
       }
     },
     watch: {
-      selectCardType: function() {
-        if(this.selectCardType){
-          this.$emit('valueCardType', this.selectCardType)
+      submit: {
+        immediate: true,
+        handler(val){
+          if(val === true){
+            this.$emit('valueCardType', this.selectCardType)
+          }
         }
       }
     },
