@@ -5,8 +5,7 @@
       .block-input
         select(v-model="selectCardType")
           template(v-for="(option, indexCardType) in arrayCardType" :id="indexCardType")
-            option(v-if="indexCardType != 0" :value="option") {{ option }}
-            option(v-else :value="option") {{ option }}
+            option(:value="option") {{ option }}
     .control-button
       .item-control-button
       .item-control-button-add
@@ -36,7 +35,6 @@
     methods: {
       addRound(){
         this.cardTypeCnt ++
-        console.log("add round")
       },
        deleteCondition(){
         this.$emit('deleteCondition')
@@ -47,10 +45,6 @@
         if(this.selectCardType){
           this.$emit('valueCardType', this.selectCardType)
         }
-        console.log(this.selectCardType)
-      },
-      submit: function(){
-        console.log(this.submit, 'component input age respond')
       }
     },
 	}

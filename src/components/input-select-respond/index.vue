@@ -4,9 +4,20 @@
     .wrap-select
       InputSelect(:indexCondition="indexCondition" :labelColor="labelColor" @type="typeCondition" :backgroundColor="backgroundColor")
     InputAgeRespond(v-if="type == 0" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit")
-    InputCardType(v-else-if="type == 1" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit" 
-      @valueCardType="valueCardType")
-    InputCardStatus(v-else-if="type == 2" :index="indexCondition" @deleteCondition="deleteCondition(indexCondition)" :submit="submit")
+    InputCardType(
+      v-else-if="type == 1" 
+      :index="indexCondition" 
+      @deleteCondition="deleteCondition(indexCondition)" 
+      :submit="submit" 
+      @valueCardType="valueCardType"
+    )
+    InputCardStatus(
+      v-else-if="type == 2" 
+      :index="indexCondition"
+      @deleteCondition="deleteCondition(indexCondition)" 
+      :submit="submit"
+      @valueCardStatus="valueCardStatus"
+    )
 </template>
 
 <script>
@@ -54,6 +65,9 @@
       },
       valueCardType(value){
         this.$emit('valueCardType', value)
+      },
+      valueCardStatus(value){
+        this.$emit('valueCardStatus', value)
       }
     }
   }

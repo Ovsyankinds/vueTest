@@ -9,6 +9,7 @@
           :backgroundColor="backgroundColor"
           :submit="submit"
           @valueCardType="valueCardType"
+          @valueCardStatus="valueCardStatus"
         )
     button.addConditions(@click="addConditions()") Добавить условие +
     button.sumbit(@click="submitConditions()") Далее
@@ -28,7 +29,9 @@
         labelColor: ['#D1A632', '#556ECB', '#92B960', '#C96661'],
         backgroundColor: ['#F8ECCB', '#C2CEFA', '#D9FCAB', '#FFC8C5'],
         submit: true,
-        submitArr: [{'cardType': ''}]
+        cardType: [],
+        cardStatus: [],
+        submitArr: []
 			}
 		},
 		methods: {
@@ -51,8 +54,12 @@
         console.log( this.submitArr, 'submit array')
       },
       valueCardType(value){
-        // console.log(value, 'value card type')
-        this.submitArr.cardType = value
+        this.cardType.push(value)
+        this.submitArr.cardType = this.cardType
+      },
+      valueCardStatus(value){
+        this.cardStatus.push(value)
+        this.submitArr.cardStatus = this.cardStatus
       }
     }
 	}
